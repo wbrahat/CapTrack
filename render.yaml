@@ -4,7 +4,7 @@ services:
     name: captrack-backend
     runtime: node
     region: oregon
-    plan: free            # ব্যাকএন্ডের জন্য ফ্রি প্ল্যান এখানে কাজ করবে
+    plan: free
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
@@ -12,19 +12,19 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        sync: false       # এটি রেন্ডার ড্যাশবোর্ডে খালি ঘর হিসেবে শো করবে
+        sync: false       # এটি ড্যাশবোর্ড থেকে পেস্ট করার জন্য খালি ঘর শো করবে
 
   # ২. ফ্রন্টএন্ড স্ট্যাটিক সাইট (Static Site)
-  - type: static          # এটি অবশ্যই static হতে হবে (আগে web ছিল)
+  - type: static_site     # আগে এখানে ভুলবশত 'static' লেখা হয়েছিল, এটি 'static_site' হবে
     name: captrack-frontend
     region: oregon
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
-    publishDir: dist      # রেন্ডারের নতুন স্ট্যান্ডার্ড অনুযায়ী এটি publishDir হবে
+    publishDir: dist      # বিল্ড করা ফাইল ফোল্ডারের নাম
     envVars:
       - key: VITE_API_URL
-        value: https://captrack-backend.onrender.com # আপনার ব্যাকএন্ডের রেন্ডার URL
+        value: https://onrender.com # ব্যাকএন্ডের সাথে কানেক্ট করার লিংক
     routes:
       - type: rewrite
         source: /*
