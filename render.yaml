@@ -18,7 +18,6 @@ services:
   - type: web
     name: captrack-frontend
     runtime: static
-    region: oregon
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
