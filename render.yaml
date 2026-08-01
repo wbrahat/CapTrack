@@ -1,31 +1,30 @@
 services:
-  # 1. Backend service (Web Service)
+  # ১. ব্যাকএন্ড ওয়েব সার্ভিস (Web Service)
   - type: web
     name: captrack-backend
     runtime: node
     region: oregon
+    plan: free            # ব্যাকএন্ডের জন্য ফ্রি প্ল্যান এখানে কাজ করবে
     rootDir: backend
-    plan: free
     buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        sync: false
+        sync: false       # এটি রেন্ডার ড্যাশবোর্ডে খালি ঘর হিসেবে শো করবে
 
-  # 2. Frontend service (Static Site)
-  - type: web
+  # ২. ফ্রন্টএন্ড স্ট্যাটিক সাইট (Static Site)
+  - type: static          # এটি অবশ্যই static হতে হবে (আগে web ছিল)
     name: captrack-frontend
-    runtime: static
     region: oregon
-    rootDir: frontend
     plan: free
+    rootDir: frontend
     buildCommand: npm install && npm run build
-    staticPublishPath: dist
+    publishDir: dist      # রেন্ডারের নতুন স্ট্যান্ডার্ড অনুযায়ী এটি publishDir হবে
     envVars:
       - key: VITE_API_URL
-        value: https://onrender.com
+        value: https://captrack-backend.onrender.com # আপনার ব্যাকএন্ডের রেন্ডার URL
     routes:
       - type: rewrite
         source: /*
