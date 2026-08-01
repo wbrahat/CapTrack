@@ -1,7 +1,9 @@
 services:
+  # 1. Backend service (Web Service)
   - type: web
     name: captrack-backend
     runtime: node
+    region: oregon
     rootDir: backend
     plan: free
     buildCommand: npm install
@@ -12,16 +14,18 @@ services:
       - key: MONGO_URI
         sync: false
 
+  # 2. Frontend service (Static Site)
   - type: web
     name: captrack-frontend
     runtime: static
+    region: oregon
     rootDir: frontend
     plan: free
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        sync: false
+        value: https://onrender.com
     routes:
       - type: rewrite
         source: /*
