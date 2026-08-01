@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API from "../lib/api";
 import { toast } from "sonner";
 import {
   Bell,
@@ -17,18 +18,6 @@ import { z } from "zod";
 
 // Validation regex for URLs
 const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
-
-const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api`,
-});
-
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-  return config;
-});
 
 const profileItems = [
   { label: "Full Name", key: "name" },

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
+import API from "../lib/api";
 import {
   CheckCircle2,
   GraduationCap,
@@ -14,18 +15,6 @@ import {
   XCircle,
 } from "lucide-react";
 import { toast } from "sonner";
-
-const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api`,
-});
-
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-  return config;
-});
 
 type UserRole = "admin" | "student" | "supervisor";
 type StatusFilter = "all" | "active" | "inactive";

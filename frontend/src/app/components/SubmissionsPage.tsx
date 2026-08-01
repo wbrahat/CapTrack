@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import axios from "axios";
+import API from "../lib/api";
 import {
   CheckCircle2,
   Clock,
@@ -13,20 +14,6 @@ import {
   UploadCloud,
   XCircle,
 } from "lucide-react";
-
-const API = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api`,
-});
-
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-
-  return config;
-});
 
 type SubmissionStat = {
   label: string;
