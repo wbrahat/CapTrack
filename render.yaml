@@ -1,5 +1,5 @@
 services:
-  # ১. ব্যাকএন্ড ওয়েব সার্ভিস (Web Service)
+  # ১. ব্যাকএন্ড ওয়েব সার্ভিস
   - type: web
     name: captrack-backend
     runtime: node
@@ -12,19 +12,19 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGO_URI
-        sync: false       # এটি ড্যাশবোর্ড থেকে পেস্ট করার জন্য খালি ঘর শো করবে
+        sync: false
 
-  # ২. ফ্রন্টএন্ড স্ট্যাটিক সাইট (Static Site)
-  - type: static_site     # আগে এখানে ভুলবশত 'static' লেখা হয়েছিল, এটি 'static_site' হবে
+  # ২. ফ্রন্টএন্ড স্ট্যাটিক সাইট
+  - type: static
     name: captrack-frontend
     region: oregon
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
-    publishDir: dist      # বিল্ড করা ফাইল ফোল্ডারের নাম
+    publishDir: dist
     envVars:
       - key: VITE_API_URL
-        value: https://onrender.com # ব্যাকএন্ডের সাথে কানেক্ট করার লিংক
+        value: https://captrack-backend.onrender.com
     routes:
       - type: rewrite
         source: /*
