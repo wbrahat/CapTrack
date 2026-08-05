@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import {
   Archive,
   CalendarCheck,
@@ -13,6 +12,14 @@ import {
   Save,
   X,
 } from "lucide-react";
+
+const API = axios.create({ baseURL: "https://captrack-backend.onrender.com/api" });
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers["x-auth-token"] = token;
+  return config;
+});
 
 type SemesterStatus = "Upcoming" | "Active" | "Archived";
 

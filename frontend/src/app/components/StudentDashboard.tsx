@@ -11,7 +11,6 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import {
   ArrowRight,
   Bell,
@@ -35,6 +34,14 @@ import {
 } from "lucide-react";
 
 // ─── API instance ─────────────────────────────────────────────────────────────
+
+const API = axios.create({ baseURL: "https://captrack-backend.onrender.com/api" });
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers["x-auth-token"] = token;
+  return config;
+});
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

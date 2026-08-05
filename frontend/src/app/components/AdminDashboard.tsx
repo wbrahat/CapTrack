@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import API from "../lib/api";
+import axios from "axios";
 import {
   Bar,
   BarChart,
@@ -24,6 +24,18 @@ import {
   UserCheck,
   Users,
 } from "lucide-react";
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  return config;
+});
 
 const groupStatusData = [
   { name: "Active", value: 18, color: "#0891b2" },

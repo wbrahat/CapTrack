@@ -1,6 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import {
   AlertCircle,
   CheckCircle2,
@@ -10,6 +9,18 @@ import {
   Search,
   UserCheck,
 } from "lucide-react";
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  return config;
+});
 
 const statIcons: Record<string, React.ReactNode> = {
   "Total Feedback": <MessageSquare size={20} />,

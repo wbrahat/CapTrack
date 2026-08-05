@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import {
   BookOpen,
   CheckCircle2,
@@ -43,6 +42,16 @@ type OverviewResponse = {
   supervisors?: SupervisorItem[];
   topics?: string[];
 };
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers["x-auth-token"] = token;
+  return config;
+});
 
 // Fallback Mock Data
 const MOCK_SUPERVISORS: SupervisorItem[] = [

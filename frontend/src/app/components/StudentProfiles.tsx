@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import { Search, Github, Linkedin, Star, BookOpen, Users, Check, ExternalLink, X } from "lucide-react";
 
 type ProfileItem = {
@@ -43,6 +42,16 @@ type OverviewResponse = {
   profiles?: ProfileItem[];
   skills?: string[];
 };
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers["x-auth-token"] = token;
+  return config;
+});
 
 // Helper to safely format URLs
 const formatUrl = (url?: string) => {

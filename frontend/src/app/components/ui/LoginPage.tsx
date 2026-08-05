@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import API from "../../lib/api";
+import axios from "axios";
 import {
   ArrowRight,
   GraduationCap,
@@ -9,6 +9,10 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
 
 interface LoginUser {
   name: string;

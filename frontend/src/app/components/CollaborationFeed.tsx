@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import { Plus, ThumbsUp, MessageCircle, Bookmark, ChevronRight, Users, Cpu, Search } from "lucide-react";
 import { toast } from "sonner";
 
@@ -99,6 +98,20 @@ const createPostConfig = {
     isSupervisorPost: false,
   },
 };
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+
+  return config;
+});
 
 export function CollaborationFeed({ viewerRole = "student" }: { viewerRole?: string }) {
   const [posts, setPosts] = useState<FeedPost[]>(initialPosts);

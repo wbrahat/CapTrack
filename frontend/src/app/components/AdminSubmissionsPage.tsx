@@ -1,6 +1,5 @@
 import { useEffect, useState, type ReactNode } from "react";
 import axios from "axios";
-import API from "../lib/api";
 import {
   AlertCircle,
   CheckCircle2,
@@ -14,6 +13,20 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
+
+const API = axios.create({
+  baseURL: "https://captrack-backend.onrender.com/api",
+});
+
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+
+  return config;
+});
 
 type SubmissionStat = {
   label: string;
